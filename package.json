@@ -1,0 +1,24 @@
+{
+  "name": "movies-explorer-api",
+  "author": "Kiyamova Elvira",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "cross-env PORT=5555 nodemon app.js"
+  },
+  "devDependencies": {
+  },
+  "description": "Backend Mesto",
+  "dependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/89373611988/movies-explorer-api.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/89373611988/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/89373611988/movies-explorer-api#readme"
+}
