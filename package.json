@@ -6,10 +6,10 @@
     "start": "node app.js",
     "dev": "cross-env PORT=5555 nodemon app.js"
   },
-  "devDependencies": {
-  },
   "description": "Backend Mesto",
   "dependencies": {
+    "mongoose": "^6.7.1",
+    "validator": "^13.7.0"
   },
   "repository": {
     "type": "git",
