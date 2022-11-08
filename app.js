@@ -4,6 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 
+const auth = require('./middlewares/auth');
+
 const { PORT = 3000 } = process.env;
 const app = express();
 
@@ -23,6 +25,6 @@ app.get('/crash-test', () => {
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
-app.use('/cards', require('./routes/cards'));
+app.use('/movies', require('./routes/movies'));
 
 app.listen(PORT);
