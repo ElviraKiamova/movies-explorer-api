@@ -9,7 +9,6 @@ const validateUrl = (value, helpers) => {
   return value;
 };
 
-
 const registerValid = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -22,6 +21,7 @@ const loginValid = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
+    name: Joi.string().required().min(2).max(30),
   }),
 });
 
@@ -52,7 +52,6 @@ const createMovieValid = celebrate({
     nameEN: Joi.string().required(),
   }),
 });
-
 
 module.exports = {
   parameterIdValid,

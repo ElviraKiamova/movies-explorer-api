@@ -2,7 +2,7 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
-const { errors } = require('celebrate');
+// const { errors } = require('celebrate');
 
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
@@ -11,13 +11,12 @@ const { registerValid, loginValid } = require('./middlewares/validation');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
+mongoose.connect('mongodb://localhost:27017/movies');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
-
 
 app.get('/crash-test', () => {
   setTimeout(() => {

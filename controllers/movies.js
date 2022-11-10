@@ -10,9 +10,34 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId } = req.body;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+  } = req.body;
   const ownerId = req.user._id;
-  Movies.create({ owner: ownerId, country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId })
+  Movies.create({
+    owner: ownerId,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+  })
     .then((movie) => {
       if (!movie) {
         next(new DataIncorrect('Переданы некорректные данные'));
@@ -28,7 +53,6 @@ module.exports.createMovie = (req, res, next) => {
       next(err);
     });
 };
-
 
 module.exports.deleteMovie = (req, res, next) => {
   const { _id: userId } = req.user;

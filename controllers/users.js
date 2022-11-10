@@ -8,7 +8,6 @@ const RegistrationError = require('../errors/RegistrationError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-
 module.exports.createUser = (req, res, next) => {
   const {
     name,
@@ -48,13 +47,12 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign(
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
       );
       res.send({ token });
     })
     .catch(next);
 };
-
 
 module.exports.getUserMe = (req, res, next) => {
   User.findById(req.user._id)
@@ -72,7 +70,6 @@ module.exports.getUserMe = (req, res, next) => {
       }
     });
 };
-
 
 module.exports.updateUserInfo = (req, res, next) => {
   const { name, email } = req.body;
