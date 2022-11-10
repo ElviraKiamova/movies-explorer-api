@@ -11,6 +11,7 @@ const { registerValid, loginValid } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const notFoundController = require('./controllers/notFoundController');
 const errorHandler = require('./middlewares/errorHandler');
+const corsProcessing = require('./middlewares/corsProcessin');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -21,6 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
+
+app.use(corsProcessing);
 
 app.use(requestLogger);
 

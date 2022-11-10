@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev": "cross-env PORT=5555 nodemon app.js",
     "lint": "npx eslint ."
   },
   "description": "Backend Mesto",
@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "celebrate": "^15.0.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.27.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -26,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/89373611988/movies-explorer-api.git"
+    "url": "https://github.com/89373611988/movies-explorer-api.git"
   },
   "keywords": [],
   "license": "ISC",
