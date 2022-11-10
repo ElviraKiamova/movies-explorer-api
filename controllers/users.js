@@ -8,6 +8,23 @@ const RegistrationError = require('../errors/RegistrationError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
+module.exports.getUserMe = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (!user._id) {
+        throw new NotFound('Пользователь не найден');
+      }
+      res.status(200).send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new DataIncorrect('Переданы некорректные данные.'));
+      } else {
+        next(err);
+      }
+    });
+};
+
 module.exports.createUser = (req, res, next) => {
   const {
     name,
@@ -52,23 +69,6 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch(next);
-};
-
-module.exports.getUserMe = (req, res, next) => {
-  User.findById(req.user._id)
-    .then((user) => {
-      if (!user._id) {
-        throw new NotFound('Пользователь не найден');
-      }
-      res.status(200).send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new DataIncorrect('Переданы некорректные данные'));
-      } else {
-        next(err);
-      }
-    });
 };
 
 module.exports.updateUserInfo = (req, res, next) => {
