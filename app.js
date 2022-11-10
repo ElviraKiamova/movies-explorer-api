@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 const { registerValid, loginValid } = require('./middlewares/validation');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -18,6 +19,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
+
+app.use(requestLogger);
 
 app.use(helmet());
 
@@ -34,6 +37,8 @@ app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
+
+app.use(errorLogger);
 
 app.use(errors());
 
