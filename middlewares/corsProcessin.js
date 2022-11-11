@@ -1,8 +1,8 @@
 const allowedCors = [
-  'https://movement.nomoredomains.icu',
-  'http://movement.nomoredomains.icu',
-  'https://api.movement.nomoredomains.icu',
-  'http://api.movement.nomoredomains.icu',
+  // 'https://movement.nomoredomains.icu',
+  // 'http://movement.nomoredomains.icu',
+  // 'https://api.movement.nomoredomains.icu',
+  // 'http://api.movement.nomoredomains.icu',
   'http://localhost:5555',
   'http://localhost:7777',
   'http://localhost:3000',
