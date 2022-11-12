@@ -10,6 +10,7 @@ const notFoundController = require('./controllers/notFoundController');
 const errorHandler = require('./middlewares/errorHandler');
 const corsProcessing = require('./middlewares/corsProcessin');
 const routes = require('./routes');
+const rateLimiter = require('./middlewares/rateLimiter');
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -32,6 +33,8 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
+
+app.use(rateLimiter);
 
 routes(app);
 
