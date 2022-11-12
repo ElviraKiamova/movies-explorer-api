@@ -5,8 +5,8 @@ const allowedCors = [
   'http://api.moviesearch.nomoredomains.icu',
   'http://localhost:5000',
   'http://localhost:7777',
-  'http://localhost:3000',
-  'https://127.0.0.1:3000',
+  'http://localhost:3001',
+  'https://127.0.0.1:3001',
 ];
 
 module.exports = (req, res, next) => {
