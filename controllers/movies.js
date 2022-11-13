@@ -17,34 +17,28 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
     movieId,
   } = req.body;
-  const ownerId = req.user._id;
+  const owner = req.user._id;
   Movies.create({
-    owner: ownerId,
+    owner,
     country,
     director,
     duration,
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
     movieId,
   })
-    .then((movie) => {
-      if (!movie) {
-        next(new DataIncorrect('Переданы некорректные данные'));
-        return;
-      }
-      res.status(200).send({ data: movie });
-    })
+    .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new DataIncorrect('Переданы некорректные данные'));
