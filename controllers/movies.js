@@ -4,7 +4,8 @@ const ForbiddenError = require('../errors/ForbiddenError');
 const Movies = require('../models/movie');
 
 module.exports.getMovies = (req, res, next) => {
-  Movies.find({})
+  const { _id: userId } = req.user;
+  Movies.find({ owner: userId })
     .then((movies) => res.status(200).send(movies))
     .catch((err) => next(err));
 };
