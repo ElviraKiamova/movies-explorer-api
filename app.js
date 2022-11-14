@@ -12,10 +12,10 @@ const corsProcessing = require('./middlewares/corsProcessin');
 const routes = require('./routes');
 const rateLimiter = require('./middlewares/rateLimiter');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3001, DATABASE, NODE_ENV } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/moviesdb');
+mongoose.connect(NODE_ENV === 'production' ? DATABASE : 'mongodb://localhost:27017/moviesdb');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
