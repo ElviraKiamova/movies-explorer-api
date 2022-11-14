@@ -73,21 +73,22 @@ module.exports.login = (req, res, next) => {
 
 module.exports.updateUserInfo = (req, res, next) => {
   const { name, email } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-    .orFail(() => {
-      throw new DataIncorrect('Переданы некорректные данные');
-    })
-    .then((user) => {
-      if (!user) {
-        throw new DataIncorrect('Переданы некорректные данные');
+
+  const findAndUpdate = () => User.findByIdAndUpdate(
+    req.user._id,
+    { name, email },
+    { runValidators: true },
+  );
+
+  User.find({ email })
+    .then(([user]) => {
+      if (user && user._id.toString() !== req.user._id) {
+        throw new RegistrationError('Пользователь  с такими данными уже зарегистрирован');
       }
-      res.status(200).send({ data: user });
+      return findAndUpdate();
     })
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new DataIncorrect('Переданы некорректные данные'));
-        return;
-      }
-      next(err);
-    });
+    .then(() => {
+      res.send({ name, email });
+    })
+    .catch(next);
 };
