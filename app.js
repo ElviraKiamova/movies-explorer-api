@@ -6,11 +6,11 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const notFoundController = require('./controllers/notFoundController');
 const errorHandler = require('./middlewares/errorHandler');
 const corsProcessing = require('./middlewares/corsProcessin');
 const routes = require('./routes');
 const rateLimiter = require('./middlewares/rateLimiter');
+const { errorMessages } = require('./utils/constants');
 
 const { PORT = 3001, DATABASE, NODE_ENV } = process.env;
 const app = express();
@@ -30,15 +30,13 @@ app.use(helmet());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(errorMessages.serverWillCrash);
   }, 0);
 });
 
 app.use(rateLimiter);
 
 routes(app);
-
-app.use(notFoundController);
 
 app.use(errorLogger);
 

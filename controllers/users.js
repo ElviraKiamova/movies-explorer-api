@@ -5,6 +5,7 @@ const User = require('../models/user');
 const NotFound = require('../errors/NotFound');
 const DataIncorrect = require('../errors/DataIncorrect');
 const RegistrationError = require('../errors/RegistrationError');
+const { errorMessages } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -12,13 +13,13 @@ module.exports.getUserMe = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user._id) {
-        throw new NotFound('Пользователь не найден');
+        throw new NotFound(errorMessages.userNotFound);
       }
       res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new DataIncorrect('Переданы некорректные данные.'));
+        next(new DataIncorrect(errorMessages.findUser));
       } else {
         next(err);
       }
@@ -48,9 +49,9 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new DataIncorrect('Переданы некорректные данные.'));
+        next(new DataIncorrect(errorMessages.createUser));
       } else if (err.code === 11000) {
-        next(new RegistrationError('Пользователь существует'));
+        next(new RegistrationError(errorMessages.createUserUps));
       } else {
         next(err);
       }
@@ -83,7 +84,7 @@ module.exports.updateUserInfo = (req, res, next) => {
   User.find({ email })
     .then(([user]) => {
       if (user && user._id.toString() !== req.user._id) {
-        throw new RegistrationError('Пользователь  с такими данными уже зарегистрирован');
+        throw new RegistrationError(errorMessages.updateUser);
       }
       return findAndUpdate();
     })

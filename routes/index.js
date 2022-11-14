@@ -3,6 +3,7 @@ const movies = require('./movies');
 const authorizRout = require('./authorizRout');
 const auth = require('../middlewares/auth');
 const NotFound = require('../errors/NotFound');
+const { errorMessages } = require('../utils/constants');
 
 module.exports = function (app) {
   app.use('/', authorizRout);
@@ -11,6 +12,6 @@ module.exports = function (app) {
   app.use('/movies', movies);
 
   app.all('*', (req, res, next) => {
-    next(new NotFound('Обращение по несуществующему адресу'));
+    next(new NotFound(errorMessages.nonExistentAddress));
   });
 };
