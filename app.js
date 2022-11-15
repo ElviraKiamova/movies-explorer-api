@@ -5,18 +5,17 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
-const auth = require('./middlewares/auth');
-const { createUser, login } = require('./controllers/users');
-const { registerValid, loginValid } = require('./middlewares/validation');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const notFoundController = require('./controllers/notFoundController');
 const errorHandler = require('./middlewares/errorHandler');
 const corsProcessing = require('./middlewares/corsProcessin');
+const routes = require('./routes');
+const rateLimiter = require('./middlewares/rateLimiter');
+const { errorMessages } = require('./utils/constants');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001, DATABASE, NODE_ENV } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/movies');
+mongoose.connect(NODE_ENV === 'production' ? DATABASE : 'mongodb://localhost:27017/moviesdb');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -31,19 +30,13 @@ app.use(helmet());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(errorMessages.serverWillCrash);
   }, 0);
 });
 
-app.post('/signin', loginValid, login);
-app.post('/signup', registerValid, createUser);
+app.use(rateLimiter);
 
-app.use(auth);
-
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
-
-app.use(notFoundController);
+routes(app);
 
 app.use(errorLogger);
 
